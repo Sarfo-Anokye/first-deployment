@@ -1,0 +1,18 @@
+version: "3.9" # Use a modern version of Docker Compose
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src # Mount the source code for development
+      - myvolume:/myvolume # Attach the named volume
+    ports:
+      - "5000:5000" # Map port 5000 to the host
+    environment:
+      - NODE_ENV=development # Set environment variable
+    command: ["npm", "start"] # Override CMD if needed
+
+volumes:
+  myvolume: # Define the named volume
