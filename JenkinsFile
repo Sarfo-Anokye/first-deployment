@@ -52,7 +52,7 @@ pipeline {
                     # Login to Docker registry
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                     # Tag the image with the repository name
-                    docker tag $DOCKER_IMAGE $DOCKER_REGISTRY/$DOCKER_REPO:$DOCKER_IMAGE
+                    docker tag $DOCKER_IMAGE $DOCKER_REGISTRY/$DOCKER_REPO:latest
                     # Push the image to Docker Hub
                     docker push $DOCKER_REGISTRY/$DOCKER_REPO:$DOCKER_IMAGE
                     '''
