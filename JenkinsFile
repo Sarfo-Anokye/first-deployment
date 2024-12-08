@@ -9,7 +9,7 @@ pipeline {
         // Set environment variables like Docker image name and S3 bucket for backup
         DOCKER_IMAGE = 'node-server:latest'
         AWS_CREDENTIALS_ID = 'aws-credentials-id'  // Jenkins AWS credentials ID
-        EC2_INSTANCE_IP = '3.93.80.133'
+        EC2_INSTANCE_IP = '54.209.239.190'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
         DOCKER_REGISTRY = 'docker.io' // Docker Hub (change this if using another registry)
         DOCKER_REPO = 'papi09/node-app' // Docker Hub username/repo (change to your repo)
