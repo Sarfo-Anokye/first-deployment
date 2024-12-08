@@ -80,7 +80,7 @@ pipeline {
                             fi
                             
                             # Run the container
-                            sudo docker run -d --name my-application -p 8080:5000 \$DOCKER_REPO:latest
+                            sudo docker run -d --name my-application -p 8000:5000 \$DOCKER_REPO:latest
                         "
                     """
 
