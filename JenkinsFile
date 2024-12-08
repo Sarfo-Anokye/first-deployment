@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Set environment variables like Docker image name and S3 bucket for backup
-        DOCKER_IMAGE = 'my-application:latest'
+        DOCKER_IMAGE = 'node-server:latest'
         AWS_CREDENTIALS_ID = 'aws-credentials-id'  // Jenkins AWS credentials ID
         EC2_INSTANCE_IP = 'ec2-instance-ip'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
@@ -13,14 +13,14 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code...'
-                git branch: 'main', url: 'https://github.com/your-repo.git'
+                git branch: 'main', url: 'https://github.com/Sarfo-Anokye/first-deployment/tree/develop'
             }
         }
 
         stage('Test Code') {
             steps {
                 echo 'Running tests...'
-                sh 'mvn test'  // Example for a Maven project, adjust for your stack
+                sh 'npm run test' 
             }
         }
 
