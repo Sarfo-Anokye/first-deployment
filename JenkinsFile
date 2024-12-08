@@ -66,23 +66,24 @@ pipeline {
                 echo 'Deploying application to EC2...'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$EC2_INSTANCE_IP << EOF
-                            # Pull the image from Docker Hub
-                            sudo docker pull $DOCKER_REPO:latest
-                            
-                            # Check if the container exists, stop and remove it if it does
-                            if sudo docker ps -a --format '{{.Names}}' | grep -q 'my-application'; then
-                                echo 'Stopping and removing existing container...'
-                                sudo docker stop my-application || true
-                                sudo docker rm my-application || true
-                            else
-                                echo 'No existing container found to stop/remove.'
-                            fi
-                            
-                            # Run the container
-                            sudo docker run -d --name my-application -p 8080:5000 $DOCKER_REPO:latest
-                        EOF
+                            ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@\${EC2_INSTANCE_IP} << EOF
+                                # Pull the image from Docker Hub
+                                sudo docker pull \$DOCKER_REPO:latest
+                                
+                                # Check if the container exists, stop and remove it if it does
+                                if sudo docker ps -a --format '{{.Names}}' | grep -q 'my-application'; then
+                                    echo 'Stopping and removing existing container...'
+                                    sudo docker stop my-application || true
+                                    sudo docker rm my-application || true
+                                else
+                                    echo 'No existing container found to stop/remove.'
+                                fi
+                                
+                                # Run the container
+                                sudo docker run -d --name my-application -p 8080:5000 \$DOCKER_REPO:latest
+                            EOF
                     """
+
                 }
             }
         }
