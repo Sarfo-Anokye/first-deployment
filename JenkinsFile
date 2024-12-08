@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools{
+        nodejs
+    }
+
     environment {
         // Set environment variables like Docker image name and S3 bucket for backup
         DOCKER_IMAGE = 'node-server:latest'
