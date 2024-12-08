@@ -11,6 +11,9 @@ pipeline {
         AWS_CREDENTIALS_ID = 'aws-credentials-id'  // Jenkins AWS credentials ID
         EC2_INSTANCE_IP = 'ec2-instance-ip'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
+        DOCKER_REGISTRY = 'docker.io' // Docker Hub (change this if using another registry)
+        DOCKER_REPO = 'papio9/node-app' // Docker Hub username/repo (change to your repo)
+        DOCKER_CREDENTIALS_ID = 'docker-hub-reg' // Docker credentials in Jenkins
     }
 
     stages {
@@ -20,7 +23,7 @@ pipeline {
                 git branch: 'develop', url: 'https://github.com/Sarfo-Anokye/first-deployment'
             }
         }
-        
+
          stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -41,6 +44,23 @@ pipeline {
             }
         }
 
+        stage('Push Docker Image to Registry') {
+            steps {
+                echo 'Pushing Docker image to registry...'
+                withCredentials([usernamePassword(credentialsId: '$DOCKER_CREDENTIALS_ID', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    # Login to Docker registry
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    # Tag the image with the repository name
+                    docker tag $DOCKER_IMAGE $DOCKER_REGISTRY/$DOCKER_REPO:$DOCKER_IMAGE
+                    # Push the image to Docker Hub
+                    docker push $DOCKER_REGISTRY/$DOCKER_REPO:$DOCKER_IMAGE
+                    '''
+                }
+            }
+        }
+
+
         stage('Deploy to EC2') {
             steps {
                 echo 'Deploying application to EC2...'
@@ -50,7 +70,7 @@ pipeline {
                     ssh -i $SSH_KEY ec2-user@$EC2_INSTANCE_IP << EOF
                         docker stop my-application || true
                         docker rm my-application || true
-                        docker run -d --name my-application -p 8080:8080 $DOCKER_IMAGE
+                        docker run -d --name my-application -p 8080:5000 $DOCKER_IMAGE
                     EOF
                     """
                 }
