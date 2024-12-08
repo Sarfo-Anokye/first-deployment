@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code...'
-                git branch: 'main', url: 'https://github.com/Sarfo-Anokye/first-deployment'
+                git branch: 'develop', url: 'https://github.com/Sarfo-Anokye/first-deployment'
             }
         }
 
