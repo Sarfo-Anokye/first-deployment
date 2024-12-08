@@ -9,7 +9,7 @@ pipeline {
         // Set environment variables like Docker image name and S3 bucket for backup
         DOCKER_IMAGE = 'node-server:latest'
         AWS_CREDENTIALS_ID = 'aws-credentials-id'  // Jenkins AWS credentials ID
-        EC2_INSTANCE_IP = '54.209.239.190'
+        EC2_INSTANCE_IP = '44.204.88.116'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
         DOCKER_REGISTRY = 'docker.io' // Docker Hub (change this if using another registry)
         DOCKER_REPO = 'papi09/node-app' // Docker Hub username/repo (change to your repo)
@@ -66,7 +66,7 @@ pipeline {
                 echo 'Deploying application to EC2...'
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                     sh """
-                    ssh -v -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$EC2_INSTANCE_IP << EOF
+                    ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$EC2_INSTANCE_IP << EOF
                         # Pull the image from Docker Hub
                         docker pull $DOCKER_REPO:latest
                         
