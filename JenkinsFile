@@ -70,9 +70,14 @@ pipeline {
                         # Pull the image from Docker Hub
                         sudo docker pull $DOCKER_REPO:latest
                         
-                        # Stop and remove any existing container
-                        sudo docker stop my-application || true
-                        sudo docker rm my-application || true
+                        # Check if the container exists, stop and remove it if it does
+                        if sudo docker ps -a --format '{{.Names}}' | grep -q 'my-application'; then
+                            echo 'Stopping and removing existing container...'
+                            sudo docker stop my-application || true
+                            sudo docker rm my-application || true
+                        else
+                            echo 'No existing container found to stop/remove.'
+                        fi
                         
                         # Run the container
                         sudo docker run -d --name my-application -p 8080:5000 $DOCKER_REPO:latest
