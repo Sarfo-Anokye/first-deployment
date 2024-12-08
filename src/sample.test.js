@@ -1,4 +1,4 @@
-const add = require("./server.js");
+const add = require("./add.js");
 
 describe("add function", () => {
   test("should return the sum of two positive numbers", () => {
