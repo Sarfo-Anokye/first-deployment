@@ -68,14 +68,14 @@ pipeline {
                     sh """
                     ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$EC2_INSTANCE_IP << EOF
                         # Pull the image from Docker Hub
-                        docker pull $DOCKER_REPO:latest
+                        sudo docker pull $DOCKER_REPO:latest
                         
                         # Stop and remove any existing container
-                        docker stop my-application || true
-                        docker rm my-application || true
+                        sudo docker stop my-application || true
+                        sudo docker rm my-application || true
                         
                         # Run the container
-                        docker run -d --name my-application -p 8080:5000 $DOCKER_REPO:latest
+                        sudo docker run -d --name my-application -p 8080:5000 $DOCKER_REPO:latest
                     EOF
                     """
                 }
