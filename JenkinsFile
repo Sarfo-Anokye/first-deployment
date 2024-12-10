@@ -8,7 +8,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'node-server:latest'
         AWS_CREDENTIALS_ID = 'aws-credentials-id' 
-        EC2_INSTANCE_IP = '44.204.88.116'
+        EC2_INSTANCE_IP = '44.208.27.133'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
@@ -87,6 +87,18 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Cleanup') {
+            steps {
+                echo 'Cleaning up Docker images...'
+                sh '''
+                # Remove  Docker images on Jenkins
+                docker image prune -f
+                '''
+            }
+        }
+    }
 
         
     }
