@@ -13,7 +13,6 @@ pipeline {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
         DOCKER_CREDENTIALS_ID = 'docker-hub-reg'
-        SONARQUBE_SCANNER_HOME = tool name: 'sonarQube'
  
     }
 
