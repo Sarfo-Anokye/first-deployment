@@ -8,11 +8,13 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'node-server:latest'
         AWS_CREDENTIALS_ID = 'aws-credentials-id' 
-        EC2_INSTANCE_IP = '44.208.27.133'
+        EC2_INSTANCE_IP = '35.175.152.235'
         S3_BUCKET_NAME = 'my-jenkins-backup-bucket'
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
-        DOCKER_CREDENTIALS_ID = 'docker-hub-reg' 
+        DOCKER_CREDENTIALS_ID = 'docker-hub-reg'
+        SONARQUBE_SCANNER_HOME = tool name: 'sonarQube'
+ 
     }
 
     stages {        
@@ -34,6 +36,21 @@ pipeline {
                 echo 'Running tests...'
                 sh 'npm run test' 
             }
+        }
+
+               stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONARQUBE_TOKEN')]) {
+                    sh """
+                        sonar-scanner \
+                            -Dsonar.projectKey=node-server \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://44.211.136.249:9092/ \
+                            -Dsonar.login=$SONARQUBE_TOKEN
+                    """
+                }
+             }
         }
 
         stage('Build Docker Image') {
