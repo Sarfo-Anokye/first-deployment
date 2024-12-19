@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         nodejs 'Node'
-        sonarQubeScanner 'sonar-scanner'  // Use the name you gave the SonarQube Scanner tool in Jenkins
+        sonarQubeScanner 'SonarQubeScanner'  // Use the name you gave the SonarQube Scanner tool in Jenkins
 
     }
 
@@ -15,6 +15,8 @@ pipeline {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
         DOCKER_CREDENTIALS_ID = 'docker-hub-reg'
+         SONARQUBE_HOST_URL = 'http://44.211.136.249:9092/'  // Replace with your SonarQube server URL
+
  
     }
 
@@ -47,7 +49,7 @@ pipeline {
                         sonar-scanner \
                             -Dsonar.projectKey=node-server \
                             -Dsonar.sources=. \
-                            -Dsonar.host.url=http://44.211.136.249:9092/ \
+                            -Dsonar.host.url=${SONARQUBE_HOST_URL} \
                             -Dsonar.login=$SONARQUBE_TOKEN
                     """
                 }
