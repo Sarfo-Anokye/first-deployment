@@ -54,9 +54,9 @@ pipeline {
         stage('Check Quality Gate') {
             steps {
                 script {
-                    def quality-gate = waitForQualityGate()
-                    if (quality-gate.status != 'OK') {
-                        error "Pipeline failed due to SonarQube Quality Gate status: ${qg.status}"
+                    def gate= waitForQualityGate()
+                    if (gate.status != 'OK') {
+                        error "Pipeline failed due to SonarQube Quality Gate status: ${gate.status}"
                     }
                 }
             }
