@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     def quality-gate = waitForQualityGate()
-                    if (quality.status != 'OK') {
+                    if (quality-gate.status != 'OK') {
                         error "Pipeline failed due to SonarQube Quality Gate status: ${qg.status}"
                     }
                 }
