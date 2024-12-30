@@ -3,8 +3,6 @@ pipeline {
 
     tools {
         nodejs 'Node'
-        sonarQube  'SonarQubeScanner'  // Use the name you gave the SonarQube Scanner tool in Jenkins
-
     }
 
     environment {
