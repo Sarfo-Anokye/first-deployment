@@ -13,7 +13,6 @@ pipeline {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
         DOCKER_CREDENTIALS_ID = 'docker-hub-reg'
-        SONARQUBE_HOST_URL = 'http://44.211.136.249:9092/'  // Replace with your SonarQube server URL
 
  
     }
@@ -48,6 +47,17 @@ pipeline {
                 
                 withSonarQubeEnv('SonarQube') {
                     sh "${SCANNER_HOME}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage('Check Quality Gate') {
+            steps {
+                script {
+                    def quality-gate = waitForQualityGate()
+                    if (quality.status != 'OK') {
+                        error "Pipeline failed due to SonarQube Quality Gate status: ${qg.status}"
+                    }
                 }
             }
         }
