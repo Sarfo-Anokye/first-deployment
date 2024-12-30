@@ -13,7 +13,7 @@ pipeline {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_REPO = 'papi09/node-app'
         DOCKER_CREDENTIALS_ID = 'docker-hub-reg'
-         SONARQUBE_HOST_URL = 'http://44.211.136.249:9092/'  // Replace with your SonarQube server URL
+        SONARQUBE_HOST_URL = 'http://44.211.136.249:9092/'  // Replace with your SonarQube server URL
 
  
     }
